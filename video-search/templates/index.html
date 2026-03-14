@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visionary Search | AI Video Intelligence</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Background Animated Orbs -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+
+    <div class="container">
+        <!-- Header Section -->
+        <header>
+            <h1>Visionary <span>Search</span></h1>
+            <p class="subtitle">Next-Gen Video Intelligence. Search via Speech & OCR Analysis</p>
+        </header>
+
+        <!-- Main Glass Panel -->
+        <div class="glass-panel main-panel">
+            
+            <!-- Video Input Section -->
+            <div class="input-section" id="input-section">
+                <h2>Analyze a Lecture or Video</h2>
+                <div class="input-group">
+                    <input type="text" id="video-url" placeholder="Paste YouTube, Coursera, or Direct Video Link...">
+                    <button class="btn" id="analyze-btn">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Analyze
+                    </button>
+                </div>
+            </div>
+
+            <!-- Processing / Progress Loader -->
+            <div class="processing-section" id="processing-section">
+                <div class="spinner"></div>
+                <h3 class="status-text" id="status-text">INITIATING PROCESSING...</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+
+            <!-- Search Engine View (Hidden initially) -->
+            <div class="search-view" id="search-view">
+                
+                <div class="video-preview">
+                    <!-- Placeholder for video player -->
+                    <div class="video-player-overlay">
+                        <i class="fa-solid fa-play-circle"></i>
+                        <span>Video Source Loaded</span>
+                    </div>
+                </div>
+
+                <div class="search-bar-container">
+                    <i class="fa-solid fa-search search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Search keywords in speech or frames...">
+                </div>
+
+                <div class="results-grid" id="results-grid">
+                    <!-- Display search results dynamically here -->
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">Ready to analyze</div>
+
+    <!-- Script loading -->
+    <script src="../static/scripts.js"></script>
+</body>
+</html>
