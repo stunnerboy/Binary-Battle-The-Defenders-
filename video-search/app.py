@@ -1,7 +1,6 @@
 import os
 from flask import Flask, request, jsonify, render_template
 import time
-import threading
 import uuid
 
 app = Flask(__name__)
@@ -9,99 +8,79 @@ app = Flask(__name__)
 from flask_cors import CORS
 CORS(app)
 
-# In-memory storage for processing tasks
-tasks = {}
-
-def process_video_task(task_id, source_url):
-    """
-    Simulates speech-to-text and OCR backend processing.
-    In a real app, this would use yt-dlp to download, AssemblyAI/Whisper to transcribe,
-    and PyTesseract/Google Vision for OCR frame analysis.
-    """
-    tasks[task_id]['status'] = 'downloading'
-    tasks[task_id]['progress'] = 10
-    time.sleep(2)
-    
-    tasks[task_id]['status'] = 'extracting_audio'
-    tasks[task_id]['progress'] = 30
-    time.sleep(2)
-    
-    tasks[task_id]['status'] = 'speech_to_text'
-    tasks[task_id]['progress'] = 50
-    time.sleep(3)
-    
-    tasks[task_id]['status'] = 'ocr_analysis'
-    tasks[task_id]['progress'] = 75
-    time.sleep(3)
-    
-    # Mock result with sample transcripts and frames
-    tasks[task_id]['status'] = 'completed'
-    tasks[task_id]['progress'] = 100
-    tasks[task_id]['results'] = [
-        {"type": "stt", "timestamp": "0:12", "text": "Welcome to this introduction to machine learning."},
-        {"type": "ocr", "timestamp": "0:25", "text": "Slide: Supervised vs Unsupervised Learning"},
-        {"type": "stt", "timestamp": "1:05", "text": "Here we can see an example of deep neural networks."},
-        {"type": "ocr", "timestamp": "1:15", "text": "Equation: y = Wx + b"},
-        {"type": "stt", "timestamp": "2:30", "text": "Now let's talk about convolutional neural networks and search engines."},
-        {"type": "ocr", "timestamp": "2:35", "text": "Architecture Diagram: CNNs"},
-    ]
+# In-memory storage for video intelligence indexes
+intelligence_store = {}
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/api/process', methods=['POST'])
-def process_video():
+@app.route('/api/resolve', methods=['POST'])
+def resolve_video():
+    """
+    Simulates resolving a platform link (YouTube/Coursera) to a playable source.
+    In a production app, this would use a service or library to get steam URLs.
+    """
     data = request.json
-    source_url = data.get('url', '')
-    if not source_url:
-        return jsonify({"error": "No URL provided"}), 400
+    url = data.get('url', '')
     
-    task_id = str(uuid.uuid4())
-    tasks[task_id] = {
-        'id': task_id,
-        'status': 'queued',
-        'progress': 0,
-        'source': source_url,
-        'results': []
-    }
-    
-    # Start background processing thread
-    t = threading.Thread(target=process_video_task, args=(task_id, source_url))
-    t.start()
-    
-    return jsonify({"task_id": task_id, "message": "Video processing started"})
-
-@app.route('/api/status/<task_id>', methods=['GET'])
-def get_task_status(task_id):
-    task = tasks.get(task_id)
-    if not task:
-        return jsonify({"error": "Task not found"}), 404
-    
-    return jsonify({
-        "status": task['status'],
-        "progress": task['progress']
-    })
-
-@app.route('/api/search/<task_id>', methods=['GET'])
-def search_video(task_id):
-    keyword = request.args.get('q', '').lower()
-    task = tasks.get(task_id)
-    
-    if not task:
-        return jsonify({"error": "Task not found"}), 404
-    if task['status'] != 'completed':
-        return jsonify({"error": "Video not fully processed yet"}), 400
-        
-    results = task.get('results', [])
-    if keyword:
-        # Filter results by keyword for both STT and OCR
-        matches = [r for r in results if keyword in r['text'].lower()]
+    if 'youtube.com' in url or 'youtu.be' in url:
+        # Mocking a resolved video stream for demo purposes
+        # In reality, you'd need a proxy or a resolved URL
+        return jsonify({
+            "resolved_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "title": "YouTube Lecture: Advanced AI Architectures",
+            "platform": "YouTube",
+            "note": "Resolved via Visionary Proxy"
+        })
+    elif 'coursera' in url:
+        return jsonify({
+            "resolved_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            "title": "Coursera: Machine Learning Specialization",
+            "platform": "Coursera"
+        })
     else:
-        matches = results
-        
-    return jsonify({"matches": matches})
+        # Return the raw URL if it looks like a direct video
+        return jsonify({
+            "resolved_url": url,
+            "title": "Direct Video Source",
+            "platform": "Direct"
+        })
+
+@app.route('/api/intelligence/stt', methods=['GET'])
+def get_mock_stt():
+    """
+    Simulates a Speech-to-Text API result for a video ID.
+    Returns transcriptions with timestamps.
+    """
+    video_id = request.args.get('id', 'default')
+    
+    # Mocked transcript related to machine learning
+    transcript = [
+        {"time": 5, "text": "Welcome to the introduction of neural networks."},
+        {"time": 45, "text": "As we can see, gradient descent is the core optimization algorithm."},
+        {"time": 120, "text": "Backpropagation allows us to calculate gradients across layers."},
+        {"time": 180, "text": "Let's look at the implementation of a convolutional layer."},
+        {"time": 240, "text": "Artificial intelligence is transforming the search engine landscape."},
+    ]
+    
+    return jsonify({"transcript": transcript})
+
+@app.route('/api/intelligence/save', methods=['POST'])
+def save_index():
+    data = request.json
+    video_id = data.get('video_id', str(uuid.uuid4()))
+    index_data = data.get('index', [])
+    
+    intelligence_store[video_id] = index_data
+    return jsonify({"status": "success", "video_id": video_id})
+
+@app.route('/api/intelligence/load/<video_id>', methods=['GET'])
+def load_index(video_id):
+    index_data = intelligence_store.get(video_id, [])
+    return jsonify({"index": index_data})
 
 if __name__ == '__main__':
-    # Run the Flask app
-    app.run(debug=True, port=5000)
+    # Use environment variables for port if needed
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=True, port=port)

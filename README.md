@@ -1,65 +1,67 @@
-# Video Intelligence Search Engine
+# Visionary Search | AI Video Intelligence
 
-A fully client-side web application that lets you:
+Visionary Search is a Next-Gen Video Intelligence tool that allows users to search within video content using **Speech-to-Text (STT)** and **OCR-based Frame Analysis**. 
 
-- Upload a video.
-- Analyze frames using OCR (via Tesseract.js) to detect text that appears **inside** the video.
-- Search for keywords across:
-  - Extracted on-screen text (frame OCR).
-  - A transcript or subtitle text that you paste or load.
-- Jump directly to matching timestamps in the video.
+![Visionary UI Preview](https://img.shields.io/badge/Aesthetics-Premium-blueviolet) 
+![Tech](https://img.shields.io/badge/Tech-Flask%20|%20Tesseract.js-blue)
 
-All processing runs in the browser using HTML, CSS, and vanilla JavaScript.
+## ✨ Features
 
-> ⚠️ **Note on speech-to-text**  
-> Browsers do not currently expose a reliable, privacy‑friendly API for doing high‑quality speech‑to‑text directly on arbitrary uploaded video files.  
-> This app is designed so that you can:
-> - Paste a transcript or subtitles (e.g. from `.srt` / `.vtt` files).
-> - Or later plug in a backend/cloud STT service behind a simple HTTP API, while keeping the UI and search logic unchanged.
+- 🧠 **AI-Powered OCR**: Automatically scans video frames at intervals to detect text on slides, code, or titles.
+- 🎙️ **Speech Intelligence**: Imports and indexes spoken keywords (mocked via backend for now, ready for Whisper/AssemblyAI).
+- 🔗 **Deep Integration**: Supports lecture links from platforms like YouTube, Coursera, and direct sources.
+- 🎨 **Premium UI**: Glassmorphic design with an interactive network background animation.
+- ⚡ **Real-time Search**: Instant keyword highlighting and jumping to specific timestamps.
 
-## Tech stack
+## 🚀 Getting Started
 
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript
-- **Canvas**:
-  - Global animated background with a node/edge network effect.
-  - Off‑screen frame capture for OCR.
-- **OCR**: [Tesseract.js](https://github.com/naptha/tesseract.js) via CDN.
+### Prerequisites
 
-No frameworks or build tools are required.
+- Python 3.8+
+- Modern Browser (Chrome/Edge/Firefox)
 
-## Running the app
+### Installation
 
-1. Open `index.html` in a modern browser (Chrome, Edge, Firefox).
-2. Drop a video file (MP4, WebM, etc.) onto the upload area.
-3. Optionally:
-   - Paste transcript / subtitles text into the transcript box, **or**
-   - Click **Load .srt / .vtt** and select a subtitle file.
-4. Adjust the **frame sampling interval** (smaller = more precise OCR, but slower).
-5. Click **Run analysis** and wait while the frames are scanned.
-6. Type a keyword in the search box and press **Search** or Enter.
-7. Click a result to jump the video to that timestamp.
+1. Navigate to the project directory:
+   ```bash
+   cd video-search
+   ```
 
-## How it works
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-- The video metadata is read via the standard `<video>` element.
-- For frame OCR:
-  - The video is sampled at regular intervals.
-  - Each sampled frame is drawn to a hidden `<canvas>`.
-  - The canvas image is passed to Tesseract.js to extract any visible text.
-- For transcript search:
-  - Raw text (or subtitle files) are parsed into lightweight segments.
-  - Simple timestamp patterns like `00:01:23` are converted into seconds.
-- Both OCR and transcript segments are indexed and searched in memory.
+3. Run the development server:
+   ```bash
+   python app.py
+   ```
 
-## Extending with real speech-to-text
+4. Open your browser to `http://127.0.0.1:5000`.
 
-To connect this UI to an actual speech‑to‑text engine, you can:
+## 🛠️ How It Works
 
-1. Build a small backend (Node, Python, etc.) that:
-   - Accepts a video file upload or URL.
-   - Calls your preferred STT provider (e.g. AssemblyAI, Deepgram, Azure, GCP).
-   - Returns an array of `{ time, text }` segments.
-2. Replace or augment `parseTranscript(...)` and `buildTranscriptIndex(...)` in `app.js` to fetch that data and store it in `transcriptIndex`.
+1. **URL Resolution**: The backend (`app.py`) resolves platform links to playable streams.
+2. **Frame Analysis**: The frontend uses a hidden canvas to grab frames and passes them to **Tesseract.js** for OCR.
+3. **Indexing**: Both visual and spoken data are indexed in the client-side `intelligenceIndex`.
+4. **Interactive Background**: A vanilla JS `canvas` animation provides a sleek "high-tech" atmosphere.
 
-That way, the **UI, canvas animations, and search UX remain unchanged**, and only the data source for transcript segments is swapped out.
+## 📁 Project Structure
 
+```bash
+video-search/
+├── app.py              # Flask Backend (API Resolve, STT Mock, Save Index)
+├── static/
+│   ├── scripts.js      # Core Logic (OCR, Animation, UI Sync)
+│   └── styles.css      # Premium Design System
+└── templates/
+    └── index.html      # Main Application View
+```
+
+## ⚠️ Notes
+
+- **CORS**: Ensure your video source allows CORS for OCR frame capture. 
+- **Sample URL**: Try pasting a direct `.mp4` link for the best OCR experience.
+
+---
+Built with ❤️ for Binary Battle: The Defenders
