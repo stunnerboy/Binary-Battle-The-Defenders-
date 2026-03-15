@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visionary Search | AI Video Intelligence</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+<body>
+    <canvas id="network-canvas"></canvas>
+
+    <div class="container">
+        <!-- Header Section -->
+        <header>
+            <h1>Visionary <span>Search</span></h1>
+            <p class="subtitle">Next-Gen Video Intelligence. Search via Speech & OCR Analysis</p>
+        </header>
+
+        <!-- Main Glass Panel -->
+        <div class="glass-panel main-panel">
+            
+            <!-- Video Input Section -->
+            <div class="input-section" id="input-section">
+                <h2>Analyze a Lecture or Video</h2>
+                <div class="input-group">
+                    <input type="text" id="video-url" placeholder="Paste YouTube link or direct MP4 URL...">
+                    <button class="btn" id="analyze-btn">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Analyze
+                    </button>
+                </div>
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+                <div class="upload-group">
+                    <label for="video-upload" class="upload-label">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Video from Browser</span>
+                        <input type="file" id="video-upload" accept="video/*" hidden>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Processing / Progress Loader -->
+            <div class="processing-section" id="processing-section">
+                <div class="spinner"></div>
+                <h3 class="status-text" id="status-text">INITIATING PROCESSING...</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="search-view" id="search-view">
+                
+                <div class="video-container">
+                    <div id="player-wrapper">
+                        <!-- Real Video Player or IFrame will go here -->
+                        <div class="video-placeholder" id="video-placeholder">
+                            <i class="fa-solid fa-play-circle"></i>
+                            <p>Loading Video Source...</p>
+                        </div>
+                    </div>
+                    <canvas id="ocr-canvas" style="display: none;"></canvas>
+                </div>
+
+                <div class="controls-row">
+                    <button class="btn btn-secondary" id="extract-ocr-btn">
+                        <i class="fa-solid fa-eye"></i> Analyze Visuals (OCR)
+                    </button>
+                    <button class="btn btn-secondary" id="import-transcript-btn">
+                        <i class="fa-solid fa-closed-captioning"></i> Transcribe Speech (AI)
+                    </button>
+                    <button class="btn btn-secondary" id="back-btn">
+                        <i class="fa-solid fa-arrow-left"></i> Switch Video
+                    </button>
+                </div>
+                
+                <div class="search-bar-container">
+                    <i class="fa-solid fa-search search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Search keywords in speech or frames...">
+                </div>
+
+                <!-- Timeline Visualizer -->
+                <div class="timeline-wrapper">
+                    <div class="timeline-bar" id="timeline-bar">
+                        <!-- Search markers will appear here -->
+                    </div>
+                </div>
+
+                <div class="results-grid" id="results-grid">
+                    <!-- Display search results dynamically here -->
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">Ready to analyze</div>
+
+    <!-- Script loading -->
+    <script src="static/scripts.js"></script>
+</body>
+</html>

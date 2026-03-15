@@ -1,0 +1,228 @@
+﻿node : file:///C:/Users/stunn
+/Downloads/Binary-Battle-The-
+Defenders-/Binary-Battle-The-
+Defenders-/node_modules/youtu
+be-transcript/dist/youtube-tr
+anscript.common.js:1
+At line:1 char:1
++ node index.js > output.txt 
+2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~
+    + CategoryInfo           
+   : NotSpecified: (file://  
+  /C:/User...ipt.common.js   
+ :1:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+Object.defineProperty(exports
+,Symbol.toStringTag,{value:`M
+odule`});var e=/(?:youtube\.c
+om\/(?:[^\/]+\/.+\/|(?:v|e(?:
+mbed)?)\/|.*[?&]v=)|youtu\.be
+\/)([^"&?\/\s]{11})/i,t=`Mozi
+lla/5.0 (Macintosh; Intel 
+Mac OS X 10_15_4) 
+AppleWebKit/537.36 (KHTML, 
+like Gecko) 
+Chrome/85.0.4183.83 Safari/53
+7.36,gzip(gfe)`,n=/<text 
+start="([^"]*)" dur="([^"]*)"
+>([^<]*)<\/text>/g,r=`https:/
+/www.youtube.com/youtubei/v1/
+player?prettyPrint=false`,i=`
+20.10.38`,a={client:{clientNa
+me:`ANDROID`,clientVersion:i}
+},o=`com.google.android.youtu
+be/${i} (Linux; U; Android 
+14)`,s=class extends Error{co
+nstructor(e){super(`[YoutubeT
+ranscript] ≡ƒÜ¿ 
+${e}`)}},c=class extends s{co
+nstructor(){super(`YouTube 
+is receiving too many 
+requests from this IP and 
+now requires solving a 
+captcha to 
+continue`)}},l=class extends 
+s{constructor(e){super(`The 
+video is no longer available 
+(${e})`)}},u=class extends s{
+constructor(e){super(`Transcr
+ipt is disabled on this 
+video (${e})`)}},d=class 
+extends 
+s{constructor(e){super(`No 
+transcripts are available 
+for this video 
+(${e})`)}},f=class extends s{
+constructor(e,t,n){super(`No 
+transcripts are available in 
+${e} this video (${n}). 
+Available languages: 
+${t.join(`, 
+`)}`)}},p=class{static async 
+fetchTranscript(e,t){let n=th
+is.retrieveVideoId(e);return 
+await this.fetchViaInnerTube(
+n,t)||this.fetchViaWebPage(n,
+e,t)}static async fetchViaInn
+erTube(e,t){try{let n=await(t
+?.fetch??fetch)(r,{method:`PO
+ST`,headers:{"Content-Type":`
+application/json`,"User-Agent
+":o},body:JSON.stringify({con
+text:a,videoId:e})});if(!n.ok
+)return;let i=(await n.json()
+)?.captions?.playerCaptionsTr
+acklistRenderer?.captionTrack
+s;return!Array.isArray(i)||i.
+length===0?void 0:this.fetchT
+ranscriptFromTracks(i,e,t)}ca
+tch{return}}static async 
+fetchViaWebPage(e,n,r){let i=
+await(await(r?.fetch??fetch)(
+`https://www.youtube.com/watc
+h?v=${e}`,{headers:{...r?.lan
+g&&{"Accept-Language":r.lang}
+,"User-Agent":t}})).text();if
+(i.includes(`class="g-recaptc
+ha"`))throw new c;if(!i.inclu
+des(`"playabilityStatus":`))t
+hrow new l(n);let a=this.pars
+eInlineJson(i,`ytInitialPlaye
+rResponse`)?.captions?.player
+CaptionsTracklistRenderer?.ca
+ptionTracks;if(!Array.isArray
+(a)||a.length===0)throw new 
+u(n);return this.fetchTranscr
+iptFromTracks(a,n,r)}static 
+parseInlineJson(e,t){let 
+n=`var ${t} = `,r=e.indexOf(n
+);if(r===-1)return null;let 
+i=r+n.length,a=0;for(let t=i;
+t<e.length;t++)if(e[t]===`{`)
+a++;else if(e[t]===`}`&&(a--,
+a===0))try{return JSON.parse(
+e.slice(i,t+1))}catch{return 
+null}return null}static 
+async fetchTranscriptFromTrac
+ks(e,n,r){if(r?.lang&&!e.some
+(e=>e.languageCode===r?.lang)
+)throw new f(r?.lang,e.map(e=
+>e.languageCode),n);let i=(r?
+.lang?e.find(e=>e.languageCod
+e===r?.lang):e[0]).baseUrl;tr
+y{if(!new URL(i).hostname.end
+sWith(`.youtube.com`))throw 
+new d(n)}catch(e){throw e 
+instanceof s?e:new d(n)}let a
+=await(r?.fetch??fetch)(i,{he
+aders:{...r?.lang&&{"Accept-L
+anguage":r.lang},"User-Agent"
+:t}});if(!a.ok)throw new 
+d(n);let o=await a.text(),c=r
+?.lang??e[0].languageCode;ret
+urn this.parseTranscriptXml(o
+,c)}static 
+parseTranscriptXml(e,t){let r
+=[],i=/<p\s+t="(\d+)"\s+d="(\
+d+)"[^>]*>([\s\S]*?)<\/p>/g,a
+;for(;(a=i.exec(e))!==null;){
+let e=parseInt(a[1],10),n=par
+seInt(a[2],10),i=a[3],o=``,s=
+/<s[^>]*>([^<]*)<\/s>/g,c;for
+(;(c=s.exec(i))!==null;)o+=c[
+1];o||=i.replace(/<[^>]+>/g,`
+`),o=this.decodeEntities(o).t
+rim(),o&&r.push({text:o,durat
+ion:n,offset:e,lang:t})}retur
+n r.length>0?r:[...e.matchAll
+(n)].map(e=>({text:this.decod
+eEntities(e[3]),duration:pars
+eFloat(e[2]),offset:parseFloa
+t(e[1]),lang:t}))}static 
+decodeEntities(e){return e.re
+place(/&amp;/g,`&`).replace(/
+&lt;/g,`<`).replace(/&gt;/g,`
+>`).replace(/&quot;/g,`"`).re
+place(/&#39;/g,`'`).replace(/
+&apos;/g,`'`).replace(/&#x([0
+-9a-fA-F]+);/g,(e,t)=>String.
+fromCodePoint(parseInt(t,16))
+).replace(/&#(\d+);/g,(e,t)=>
+String.fromCodePoint(parseInt
+(t,10)))}static retrieveVideo
+Id(t){if(t.length===11)return
+ t;let n=t.match(e);if(n&&n.l
+ength)return n[1];throw new 
+s(`Impossible to retrieve 
+Youtube video 
+ID.`)}};function 
+m(e,t){return p.fetchTranscri
+pt(e,t)}exports.YoutubeTransc
+ript=p,exports.YoutubeTranscr
+iptDisabledError=u,exports.Yo
+utubeTranscriptError=s,export
+s.YoutubeTranscriptNotAvailab
+leError=d,exports.YoutubeTran
+scriptNotAvailableLanguageErr
+or=f,exports.YoutubeTranscrip
+tTooManyRequestError=c,export
+s.YoutubeTranscriptVideoUnava
+ilableError=l,exports.fetchTr
+anscript=m;
+                      ^
+
+ReferenceError: exports is 
+not defined in ES module 
+scope
+This file is being treated 
+as an ES module because it 
+has a '.js' file extension 
+and 'C:\Users\stunn\Downloads
+\Binary-Battle-The-Defenders-
+\Binary-Battle-The-Defenders-
+\node_modules\youtube-transcr
+ipt\package.json' contains 
+"type": "module". To treat 
+it as a CommonJS script, 
+rename it to use the '.cjs' 
+file extension.
+    at file:///C:/Users/stunn
+/Downloads/Binary-Battle-The-
+Defenders-/Binary-Battle-The-
+Defenders-/node_modules/youtu
+be-transcript/dist/youtube-tr
+anscript.common.js:1:23
+    at ModuleJobSync.runSync 
+(node:internal/modules/esm/mo
+dule_job:534:37)
+    at ModuleLoader.importSyn
+cForRequire (node:internal/mo
+dules/esm/loader:388:47)
+    at loadESMFromCJS (node:i
+nternal/modules/cjs/loader:16
+29:24)
+    at Module._compile (node:
+internal/modules/cjs/loader:1
+794:5)
+    at Object..js (node:inter
+nal/modules/cjs/loader:1943:1
+0)
+    at Module.load (node:inte
+rnal/modules/cjs/loader:1533:
+32)
+    at Module._load (node:int
+ernal/modules/cjs/loader:1335
+:12)
+    at wrapModuleLoad (node:i
+nternal/modules/cjs/loader:25
+5:19)
+    at Module.require (node:i
+nternal/modules/cjs/loader:15
+56:12)
+
+Node.js v24.14.0

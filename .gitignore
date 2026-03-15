@@ -1,0 +1,10 @@
+node_modules/
+uploads/
+temp_frames/
+.env
+debug_ocr.js
+debug_*.jpg
+*.mp4
+*.mkv
+*.webm
+*.avi
