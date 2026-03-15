@@ -1,67 +1,57 @@
-# Visionary Search | AI Video Intelligence
+# 🎬 Visionary Search - AI-Powered Video Intelligence 🚀
 
-Visionary Search is a Next-Gen Video Intelligence tool that allows users to search within video content using **Speech-to-Text (STT)** and **OCR-based Frame Analysis**. 
-
-![Visionary UI Preview](https://img.shields.io/badge/Aesthetics-Premium-blueviolet) 
-![Tech](https://img.shields.io/badge/Tech-Flask%20|%20Tesseract.js-blue)
-
-## ✨ Features
-
-- 🧠 **AI-Powered OCR**: Automatically scans video frames at intervals to detect text on slides, code, or titles.
-- 🎙️ **Speech Intelligence**: Imports and indexes spoken keywords (mocked via backend for now, ready for Whisper/AssemblyAI).
-- 🔗 **Deep Integration**: Supports lecture links from platforms like YouTube, Coursera, and direct sources.
-- 🎨 **Premium UI**: Glassmorphic design with an interactive network background animation.
-- ⚡ **Real-time Search**: Instant keyword highlighting and jumping to specific timestamps.
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Python 3.8+
-- Modern Browser (Chrome/Edge/Firefox)
-
-### Installation
-
-1. Navigate to the project directory:
-   ```bash
-   cd video-search
-   ```
-
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Run the development server:
-   ```bash
-   python app.py
-   ```
-
-4. Open your browser to `http://127.0.0.1:5000`.
-
-## 🛠️ How It Works
-
-1. **URL Resolution**: The backend (`app.py`) resolves platform links to playable streams.
-2. **Frame Analysis**: The frontend uses a hidden canvas to grab frames and passes them to **Tesseract.js** for OCR.
-3. **Indexing**: Both visual and spoken data are indexed in the client-side `intelligenceIndex`.
-4. **Interactive Background**: A vanilla JS `canvas` animation provides a sleek "high-tech" atmosphere.
-
-## 📁 Project Structure
-
-```bash
-video-search/
-├── app.py              # Flask Backend (API Resolve, STT Mock, Save Index)
-├── static/
-│   ├── scripts.js      # Core Logic (OCR, Animation, UI Sync)
-│   └── styles.css      # Premium Design System
-└── templates/
-    └── index.html      # Main Application View
-```
-
-## ⚠️ Notes
-
-- **CORS**: Ensure your video source allows CORS for OCR frame capture. 
-- **Sample URL**: Try pasting a direct `.mp4` link for the best OCR experience.
+An absolute next-generation **AI Video Search Engine** developed for finding keyword occurrences, transcribing speech, and extracting context directly inside continuous visual frame structures. Streamline academic lectures, long streams, and tutorial research layout pipelines easily.
 
 ---
-Built with ❤️ for Binary Battle: The Defenders
+
+## ✨ Key Features
+
+*   🎙️ **Fast Speech Transcriber (STT)**: Queries direct free subtitles sequence accurately with secondary robust fallback trigger directly on AssemblyAI.
+*   📷 **Frame Visual OCR Sequence**: Sequentially screenshots headless canvases directly via Puppeteer robot rendering to index appearing texts absolute accurately.
+*   🛠️ **Topic summaries & Formatting**: Auto-summarizes noisy layouts with bullet buffers including explicit **Hinglish Latent Transliteration support** for Devanagari script frames natively!
+*   ⏳ **Duration Timeline indexing**: Click nodes directly to jump timestamp offset timelines strictly accurately on standard embedded playback controls layout correctly.
+
+---
+
+## 🛠️ Technology Stack
+
+| Architecture Layer | Core Module |
+| :--- | :--- |
+| **Backend Engine** | Node.js + Express.js Web Server Router |
+| **AI Driver** | [AssemblyAI Universal-3-Pro](https://www.assemblyai.com/) |
+| **Layout OCR** | [Puppeteer Invisible Robot](https://pptr.dev/) + [Tesseract.js](https://tesseract.projectnaptha.com/) |
+| **Frontend Layout** | Vibrant HTML5 / Vanilla Modern CSS Frameworks Layout setup |
+
+---
+
+## 📦 Setup & Installation
+
+### 1. Pre-requisites
+*   Make sure you have [Node.js](https://nodejs.org/) loaded on your machine (v16+).
+
+### 2. Install Packages
+```powershell
+npm install
+```
+
+### 3. Setup Configuration (Environment Keys)
+Create a `.env` file inside your absolute root directory setup and attach your API key variables securely:
+```env
+PORT=3000
+ASSEMBLYAI_API_KEY=YOUR_ASSEMBLY_KEY_HERE
+```
+
+### 4. Boot Controller Server
+```powershell
+node index.js
+```
+The application will operate live at **`http://localhost:3000`** sequentially right over your desktop frames!
+
+---
+
+## 🔧 Exclusions & Limits (Strict .gitignore)
+Dependency framing limits like `node_modules/` or test frames have been safely isolated using absolute filters rules accurately. 
+To publish your workspace securely inside Git:
+```powershell
+git push
+```
